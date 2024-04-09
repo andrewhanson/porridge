@@ -1,0 +1,16 @@
+{
+  "name": "@app/api",
+  "private": true,
+  "type": "module",
+  "main": "./index.ts",
+  "scripts": {
+
+  },
+  "devDependencies": {
+    "@types/node": "^16.7.13",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.3"
+  },
+  "dependencies": {
+  }
+}

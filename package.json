@@ -1,0 +1,21 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+   
+    "build": "pnpm -r build",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "packages": "dotenv -- pnpm --filter",
+    "web": "pnpm packages @app/web"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "dotenv-cli": "^7.4.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.3"
+  }
+}
