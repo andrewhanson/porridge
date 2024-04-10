@@ -6,7 +6,7 @@
       flat
       tile
       :rounded="false"
-      image="/images/porridge_logo.webp"
+      image="/images/porridge_logo.png"
       min-height="220px"
     >
       <v-card-actions>

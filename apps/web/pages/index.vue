@@ -17,4 +17,5 @@
 <script setup>
   import { recipeApi } from '@app/api'
   const { data, error, loading } = useAsyncData('recipes', () => recipeApi.get())
+
 </script>
