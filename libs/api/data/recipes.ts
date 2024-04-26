@@ -1,4 +1,4 @@
-export const sampleData = [
+export const recipes = [
   {
     "id": "QrIELmgkOjmg3VztiG_TZ",
     "name": "Classic Oatmeal Porridge",

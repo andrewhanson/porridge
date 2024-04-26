@@ -116,6 +116,13 @@ importers:
         version: 3.5.14(typescript@5.4.4)(vite-plugin-vuetify@2.0.3)(vue@3.4.21)
 
   libs/users:
+    dependencies:
+      '@app/api':
+        specifier: workspace:^
+        version: link:../api
+      '@app/auth':
+        specifier: workspace:^
+        version: link:../auth
     devDependencies:
       nuxt:
         specifier: ^3.11.2

@@ -1,14 +1,5 @@
-import { sampleData } from './data'
 
-const recipeApi = {
-  fetch: async(id:string) => {
-    const recipe = sampleData.find((recipe) => recipe.id === id);
-    return await Promise.resolve(recipe);
-  },
-  get: async () => {
-    return await Promise.resolve(sampleData);
-  }
+import recipeApi from './recipeApi'
+import userApi from './userApi'
 
-}
-
-export { recipeApi }
+export { recipeApi, userApi }
