@@ -10,7 +10,6 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@app/api": "workspace:^",
     "@app/auth": "workspace:^",
     "@app/recipes": "workspace:^",
     "@app/ui": "workspace:^",

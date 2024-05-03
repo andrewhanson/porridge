@@ -16,7 +16,6 @@
     "vue-router": "^4.3.0"
   },
   "dependencies": {
-    "@app/api": "workspace:^",
     "@app/auth": "workspace:^"
   }
 }

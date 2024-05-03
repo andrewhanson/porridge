@@ -1,4 +1,4 @@
-import { userData } from './data/users';
+import { userData } from './data';
 
 const userApi = {
   fetch: async (id: string) => {
@@ -11,4 +11,4 @@ const userApi = {
 };
 
 
-export default userApi;
+export { userApi };

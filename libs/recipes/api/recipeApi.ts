@@ -1,4 +1,4 @@
-import { recipes } from './data/recipes'
+import { recipes } from './data'
 
 const recipeApi = {
   fetch: async(id:string) => {
@@ -10,4 +10,4 @@ const recipeApi = {
   }
 }
 
-export default recipeApi;
+export {recipeApi};

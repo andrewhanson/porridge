@@ -23,7 +23,7 @@
 </template>
 
 <script setup>
-  import { recipeApi } from '@app/api'
+  import { recipeApi } from '@app/recipes/api'
   const route = useRoute()
 
   const id  =  computed(() => route.params.id)

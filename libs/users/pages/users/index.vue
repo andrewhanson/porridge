@@ -4,12 +4,14 @@
     <div v-if="loading">Loading...</div>
     <div v-if="error">Error: {{ error.message }}</div>
 
-    <v-data-table :items="data" :headers></v-data-table>
+    <div v-if="data">        
+      <v-data-table :items="data" :headers></v-data-table>
+    </div>  
   </v-container>
 </template>
 
 <script setup>
-import { userApi } from '@app/api'
+import { userApi } from '@app/users/api'
 
 const headers = ref([    
     { title: 'Name', value: 'name' },

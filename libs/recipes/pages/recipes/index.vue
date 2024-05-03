@@ -12,7 +12,7 @@
 </template>
 
 <script setup>
-  import { recipeApi } from '@app/api'
+  import { recipeApi } from '@app/recipes/api'
   const { data, error, loading } = useAsyncData('recipes', () => recipeApi.get())
 
 </script>
