@@ -13,9 +13,9 @@
     "@app/auth": "workspace:^",
     "@app/recipes": "workspace:^",
     "@app/ui": "workspace:^",
-    "nuxt": "^3.11.2",
-    "vue": "^3.4.21",
-    "vue-router": "^4.3.0"
+    "nuxt": "^3.17.5",
+    "vue": "^3.5.16",
+    "vue-router": "^4.5.1"
   },
   "devDependencies": {
     "@app/users": "workspace:^"
