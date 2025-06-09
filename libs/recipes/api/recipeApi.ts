@@ -52,14 +52,15 @@ const recipeApi = {
     }
   },
   
-  create: async (recipe: CreateRecipe): Promise<Recipe | undefined> => {
+  create: async (recipe: CreateRecipe, authToken?: string): Promise<Recipe | undefined> => {
     try {
+      const token = authToken || await getAuthToken()
       const response = await $fetch<Recipe>('/api/recipes', {
         method: 'POST',
         body: recipe,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${await getAuthToken()}`
+          'Authorization': `Bearer ${token}`
         }
       })
       return response
@@ -69,14 +70,15 @@ const recipeApi = {
     }
   },
   
-  update: async (id: string, recipe: UpdateRecipe): Promise<Recipe | undefined> => {
+  update: async (id: string, recipe: UpdateRecipe, authToken?: string): Promise<Recipe | undefined> => {
     try {
+      const token = authToken || await getAuthToken()
       const response = await $fetch<Recipe>(`/api/recipes/${id}`, {
         method: 'PUT',
         body: recipe,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${await getAuthToken()}`
+          'Authorization': `Bearer ${token}`
         }
       })
       return response
@@ -86,12 +88,13 @@ const recipeApi = {
     }
   },
   
-  delete: async (id: string): Promise<boolean> => {
+  delete: async (id: string, authToken?: string): Promise<boolean> => {
     try {
+      const token = authToken || await getAuthToken()
       await $fetch(`/api/recipes/${id}`, {
         method: 'DELETE',
         headers: {
-          'Authorization': `Bearer ${await getAuthToken()}`
+          'Authorization': `Bearer ${token}`
         }
       })
       return true
@@ -102,11 +105,26 @@ const recipeApi = {
   }
 }
 
-// Helper function to get auth token (to be implemented based on your auth system)
+// Helper function to get auth token (integrates with Auth0)
 async function getAuthToken(): Promise<string> {
-  // This should be implemented to get the actual auth token from your auth system
-  // For now, returning a placeholder
-  return 'placeholder-token'
+  // In a client-side context, get the token from Auth0
+  if (process.client) {
+    try {
+      // This would need to be imported in the component that uses it
+      // const { getAccessTokenSilently } = useAuth0()
+      // return await getAccessTokenSilently()
+      
+      // For now, return a placeholder - this should be implemented in components
+      // that need authentication by importing useAuth0 and getting the token
+      return 'placeholder-token'
+    } catch (error) {
+      console.error('Failed to get auth token:', error)
+      throw error
+    }
+  }
+  
+  // On server-side, this shouldn't be called
+  throw new Error('getAuthToken should not be called on server-side')
 }
 
 export { recipeApi }
