@@ -1,3 +1,6 @@
 packages:
-  - 'libs/**'
-  - 'apps/**'
+  - libs/**
+  - apps/**
+
+ignoredBuiltDependencies:
+  - esbuild
