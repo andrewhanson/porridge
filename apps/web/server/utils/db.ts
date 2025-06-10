@@ -7,7 +7,6 @@ export function getPool(): Pool {
     const config = useRuntimeConfig()
     
     pool = new Pool({
-      connectionString: config.databaseUrl,
       host: config.postgresHost,
       port: parseInt(config.postgresPort || '5432'),
       database: config.postgresDb,

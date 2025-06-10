@@ -1,7 +1,6 @@
-
 export default defineNuxtConfig({
   devtools: { enabled: true }, 
-  ssr: false, 
+  //ssr: false, 
   extends: [
     "@app/ui",
     "@app/auth",
@@ -20,5 +19,6 @@ export default defineNuxtConfig({
     public: {
       // Add any public runtime config here if needed
     }
-  }
+  },
+  compatibilityDate: '2025-06-09'
 })
