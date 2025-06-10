@@ -1,6 +1,5 @@
-import { prisma } from '~/server/utils/prisma'
+import { prisma, CreateRecipeSchema } from '@app/database'
 import { requireAuth } from '~/server/utils/auth'
-import { CreateRecipeSchema } from '~/server/types/recipe'
 
 /**
  * @openapi

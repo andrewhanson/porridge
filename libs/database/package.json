@@ -1,0 +1,20 @@
+{
+  "name": "@app/database",
+  "private": true,
+  "type": "module",
+  "main": "./index.ts",
+  "scripts": {
+    "db:migrate": "prisma migrate dev",
+    "db:deploy": "prisma migrate deploy",
+    "db:studio": "prisma studio",
+    "db:generate": "prisma generate"
+  },
+  "dependencies": {
+    "@app/recipes": "workspace:^",
+    "@prisma/client": "^5.10.2",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "prisma": "^5.10.2"
+  }
+}

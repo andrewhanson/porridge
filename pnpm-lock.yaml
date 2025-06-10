@@ -26,15 +26,15 @@ importers:
       '@app/auth':
         specifier: workspace:^
         version: link:../../libs/auth
+      '@app/database':
+        specifier: workspace:^
+        version: link:../../libs/database
       '@app/recipes':
         specifier: workspace:^
         version: link:../../libs/recipes
       '@app/ui':
         specifier: workspace:^
         version: link:../../libs/ui
-      '@prisma/client':
-        specifier: ^5.10.2
-        version: 5.22.0(prisma@5.22.0)
       '@types/pg':
         specifier: ^8.11.6
         version: 8.15.4
@@ -57,9 +57,6 @@ importers:
       '@app/users':
         specifier: workspace:^
         version: link:../../libs/users
-      prisma:
-        specifier: ^5.10.2
-        version: 5.22.0
 
   libs/auth:
     dependencies:
@@ -79,6 +76,22 @@ importers:
       vue-router:
         specifier: ^4.5.1
         version: 4.5.1(vue@3.5.16(typescript@5.8.3))
+
+  libs/database:
+    dependencies:
+      '@app/recipes':
+        specifier: workspace:^
+        version: link:../recipes
+      '@prisma/client':
+        specifier: ^5.10.2
+        version: 5.22.0(prisma@5.22.0)
+      zod:
+        specifier: ^3.23.8
+        version: 3.25.56
+    devDependencies:
+      prisma:
+        specifier: ^5.10.2
+        version: 5.22.0
 
   libs/recipes:
     dependencies:

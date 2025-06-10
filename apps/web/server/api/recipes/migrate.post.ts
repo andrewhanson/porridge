@@ -1,5 +1,5 @@
 import { requireAuth } from '~/server/utils/auth'
-import { migrateExistingRecipes } from '~/server/utils/migrateData'
+import { migrateExistingRecipes } from '@app/database'
 
 /**
  * @openapi

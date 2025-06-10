@@ -1,5 +1,5 @@
-import { prisma } from '~/server/utils/prisma'
-import { recipes } from '~/../../libs/recipes/api/data'
+import { prisma } from './client'
+import { recipes } from '@app/recipes/api/data'
 
 export async function migrateExistingRecipes() {
   try {
