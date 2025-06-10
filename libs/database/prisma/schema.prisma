@@ -18,6 +18,7 @@ model Recipe {
   description     String
   ingredients     String[]  // Using native Prisma array type
   preparationSteps String[] // Using native Prisma array type
+  tags            String[]  // Using native Prisma array type
   createdAt       DateTime  @default(now()) @map("created_at")
   updatedAt       DateTime  @default(now()) @updatedAt @map("updated_at")
   createdBy       String?   @map("created_by")
