@@ -4,5 +4,9 @@
 </template>
 
 <script setup>
-  navigateTo('/recipes')
+import { onMounted } from 'vue'
+
+// onMounted(() => {
+//   navigateTo('/recipes')
+// })
 </script>

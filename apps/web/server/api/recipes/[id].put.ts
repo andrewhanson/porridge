@@ -1,4 +1,4 @@
-import { query } from '~/server/utils/db'
+import { prisma } from '~/server/utils/prisma'
 import { requireAuth } from '~/server/utils/auth'
 import { UpdateRecipeSchema } from '~/server/types/recipe'
 
@@ -59,85 +59,21 @@ export default defineEventHandler(async (event) => {
     // Validate input
     const validatedData = UpdateRecipeSchema.parse(body)
     
-    // Check if recipe exists
-    const existingResult = await query('SELECT id FROM recipes WHERE id = $1', [id])
-    if (existingResult.rows.length === 0) {
-      throw createError({
-        statusCode: 404,
-        statusMessage: 'Recipe not found'
-      })
-    }
-
-    // Build dynamic update query
-    const updates: string[] = []
-    const values: any[] = []
-    let paramCount = 1
-
-    if (validatedData.name !== undefined) {
-      updates.push(`name = $${paramCount++}`)
-      values.push(validatedData.name)
-    }
-    if (validatedData.image !== undefined) {
-      updates.push(`image = $${paramCount++}`)
-      values.push(validatedData.image)
-    }
-    if (validatedData.summary !== undefined) {
-      updates.push(`summary = $${paramCount++}`)
-      values.push(validatedData.summary)
-    }
-    if (validatedData.description !== undefined) {
-      updates.push(`description = $${paramCount++}`)
-      values.push(validatedData.description)
-    }
-    if (validatedData.ingredients !== undefined) {
-      updates.push(`ingredients = $${paramCount++}`)
-      values.push(JSON.stringify(validatedData.ingredients))
-    }
-    if (validatedData.preparationSteps !== undefined) {
-      updates.push(`preparation_steps = $${paramCount++}`)
-      values.push(JSON.stringify(validatedData.preparationSteps))
-    }
-
-    if (updates.length === 0) {
-      throw createError({
-        statusCode: 400,
-        statusMessage: 'No valid fields to update'
-      })
-    }
-
-    updates.push(`updated_at = $${paramCount++}`)
-    values.push(new Date())
-    values.push(id)
-
-    await query(`
-      UPDATE recipes 
-      SET ${updates.join(', ')}
-      WHERE id = $${paramCount}
-    `, values)
-
-    // Fetch the updated recipe
-    const result = await query(`
-      SELECT 
-        id,
-        name,
-        image,
-        summary,
-        description,
-        ingredients,
-        preparation_steps as "preparationSteps",
-        created_at as "createdAt",
-        updated_at as "updatedAt",
-        created_by as "createdBy"
-      FROM recipes 
-      WHERE id = $1
-    `, [id])
-
-    const recipe = result.rows[0]
-    recipe.createdAt = new Date(recipe.createdAt)
-    recipe.updatedAt = new Date(recipe.updatedAt)
+    // Check if recipe exists and update it
+    const recipe = await prisma.recipe.update({
+      where: { id },
+      data: {
+        name: validatedData.name,
+        image: validatedData.image,
+        summary: validatedData.summary,
+        description: validatedData.description,
+        ingredients: validatedData.ingredients,
+        preparationSteps: validatedData.preparationSteps,
+      }
+    })
 
     return recipe
-  } catch (error) {
+  } catch (error: any) {
     if (error.name === 'ZodError') {
       throw createError({
         statusCode: 400,
@@ -145,9 +81,12 @@ export default defineEventHandler(async (event) => {
         data: error.errors
       })
     }
-    
-    if (error.statusCode) {
-      throw error
+
+    if (error.code === 'P2025') {
+      throw createError({
+        statusCode: 404,
+        statusMessage: 'Recipe not found'
+      })
     }
     
     console.error('Error updating recipe:', error)

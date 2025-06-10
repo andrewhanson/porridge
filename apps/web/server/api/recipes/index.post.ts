@@ -1,7 +1,6 @@
-import { query } from '~/server/utils/db'
+import { prisma } from '~/server/utils/prisma'
 import { requireAuth } from '~/server/utils/auth'
 import { CreateRecipeSchema } from '~/server/types/recipe'
-import { randomUUID } from 'crypto'
 
 /**
  * @openapi
@@ -43,54 +42,17 @@ export default defineEventHandler(async (event) => {
     // Validate input
     const validatedData = CreateRecipeSchema.parse(body)
     
-    const id = randomUUID()
-    const now = new Date()
-    
-    await query(`
-      INSERT INTO recipes (
-        id, name, image, summary, description, 
-        ingredients, preparation_steps, created_at, updated_at, created_by
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
-    `, [
-      id,
-      validatedData.name,
-      validatedData.image || null,
-      validatedData.summary,
-      validatedData.description,
-      JSON.stringify(validatedData.ingredients),
-      JSON.stringify(validatedData.preparationSteps),
-      now,
-      now,
-      user.id
-    ])
-
-    // Fetch the created recipe
-    const result = await query(`
-      SELECT 
-        id,
-        name,
-        image,
-        summary,
-        description,
-        ingredients,
-        preparation_steps as "preparationSteps",
-        created_at as "createdAt",
-        updated_at as "updatedAt",
-        created_by as "createdBy"
-      FROM recipes 
-      WHERE id = $1
-    `, [id])
-
-    if (result.rows.length === 0) {
-      throw createError({
-        statusCode: 500,
-        statusMessage: 'Failed to create recipe'
-      })
-    }
-
-    const recipe = result.rows[0]
-    recipe.createdAt = new Date(recipe.createdAt)
-    recipe.updatedAt = new Date(recipe.updatedAt)
+    const recipe = await prisma.recipe.create({
+      data: {
+        name: validatedData.name,
+        image: validatedData.image,
+        summary: validatedData.summary,
+        description: validatedData.description,
+        ingredients: validatedData.ingredients,
+        preparationSteps: validatedData.preparationSteps,
+        createdBy: user.id
+      }
+    })
 
     setResponseStatus(event, 201)
     return recipe

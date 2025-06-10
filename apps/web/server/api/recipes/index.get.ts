@@ -1,4 +1,4 @@
-import { query } from '~/server/utils/db'
+import { prisma } from '~/server/utils/prisma'
 import type { Recipe } from '~/server/types/recipe'
 
 /**
@@ -21,36 +21,19 @@ import type { Recipe } from '~/server/types/recipe'
  *       500:
  *         description: Internal server error
  */
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async () => {
   try {
-    const result = await query(`
-      SELECT 
-        id,
-        name,
-        image,
-        summary,
-        description,
-        ingredients,
-        preparation_steps as "preparationSteps",
-        created_at as "createdAt",
-        updated_at as "updatedAt",
-        created_by as "createdBy"
-      FROM recipes 
-      ORDER BY created_at DESC
-    `)
-
-    const recipes: Recipe[] = result.rows.map(row => ({
-      ...row,
-      createdAt: row.createdAt ? new Date(row.createdAt) : undefined,
-      updatedAt: row.updatedAt ? new Date(row.updatedAt) : undefined
-    }))
-
+    const recipes = await prisma.recipe.findMany({
+      orderBy: {
+        createdAt: 'desc'
+      }
+    })
     return recipes
   } catch (error) {
-    console.error('Error fetching recipes:', error)
+    console.error('Failed to fetch recipes:', error)
     throw createError({
       statusCode: 500,
-      statusMessage: 'Failed to fetch recipes'
+      message: 'Failed to fetch recipes'
     })
   }
 })

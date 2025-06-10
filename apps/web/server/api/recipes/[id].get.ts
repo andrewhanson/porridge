@@ -1,5 +1,4 @@
-import { query } from '~/server/utils/db'
-import type { Recipe } from '~/server/types/recipe'
+import { prisma } from '~/server/utils/prisma'
 
 /**
  * @openapi
@@ -39,34 +38,18 @@ export default defineEventHandler(async (event) => {
       })
     }
 
-    const result = await query(`
-      SELECT 
-        id,
-        name,
-        image,
-        summary,
-        description,
-        ingredients,
-        preparation_steps as "preparationSteps",
-        created_at as "createdAt",
-        updated_at as "updatedAt",
-        created_by as "createdBy"
-      FROM recipes 
-      WHERE id = $1
-    `, [id])
+    const recipe = await prisma.recipe.findUnique({
+      where: { id }
+    })
 
-    if (result.rows.length === 0) {
+    if (!recipe) {
       throw createError({
         statusCode: 404,
         statusMessage: 'Recipe not found'
       })
     }
 
-    const recipe = result.rows[0]
-    recipe.createdAt = new Date(recipe.createdAt)
-    recipe.updatedAt = new Date(recipe.updatedAt)
-
-    return recipe as Recipe
+    return recipe
   } catch (error) {
     if (error.statusCode) {
       throw error

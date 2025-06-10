@@ -1,4 +1,4 @@
-import { query } from '~/server/utils/db'
+import { prisma } from '~/server/utils/prisma'
 import { requireAuth } from '~/server/utils/auth'
 
 /**
@@ -42,23 +42,18 @@ export default defineEventHandler(async (event) => {
       })
     }
 
-    // Check if recipe exists
-    const existingResult = await query('SELECT id FROM recipes WHERE id = $1', [id])
-    if (existingResult.rows.length === 0) {
+    await prisma.recipe.delete({
+      where: { id }
+    })
+
+    setResponseStatus(event, 204)
+    return null
+  } catch (error: any) {
+    if (error.code === 'P2025') {
       throw createError({
         statusCode: 404,
         statusMessage: 'Recipe not found'
       })
-    }
-
-    // Delete the recipe
-    await query('DELETE FROM recipes WHERE id = $1', [id])
-
-    setResponseStatus(event, 204)
-    return null
-  } catch (error) {
-    if (error.statusCode) {
-      throw error
     }
     
     console.error('Error deleting recipe:', error)
