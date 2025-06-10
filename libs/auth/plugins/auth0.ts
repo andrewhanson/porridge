@@ -9,8 +9,9 @@ export default defineNuxtPlugin((app) => {
     postLogoutRedirectUri: config.public.auth0.postLogoutRedirectUri,
   });
 
+  console.log('Auth0 Plugin called')
   if(process.client){
-    app.vueApp.use(auth0);
+      app.vueApp.use(auth0);
   }
 
   addRouteMiddleware('auth', async () => {
