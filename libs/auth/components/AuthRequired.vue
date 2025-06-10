@@ -12,9 +12,6 @@ const isAuthenticated = ref(false)
 
 onMounted(() => {
   const auth = useAuth0()  
-
-  console.log('AuthRequired onMounted Value', auth.isAuthenticated)
-
   isAuthenticated.value = auth.isAuthenticated.value;
 })
 </script>

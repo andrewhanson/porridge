@@ -3,7 +3,7 @@ export default defineEventHandler((event) => {
   if (getRequestURL(event).pathname === '/') {
     // You can perform any server-side operations here
     // For example, checking authentication, database queries, etc.
-    console.log('Processing root request on server', event)
+    //console.log('Processing root request on server', event)
     
     // You can set headers or modify the event
     setHeader(event, 'x-processed-by', 'server')

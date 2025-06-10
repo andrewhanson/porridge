@@ -11,13 +11,11 @@ export default defineNuxtPlugin((app) => {
 
   console.log('Auth0 Plugin called')
   if(process.client){
-    console.log('Auth0 Plugin called - Client', auth0)
       app.vueApp.use(auth0);
   }
 
   addRouteMiddleware('auth', async () => {
     if (process.client) {
-      console.log('Auth Middleware called - Client check session')
       await auth0.checkSession()
       
       if(auth0.isLoading.value){
