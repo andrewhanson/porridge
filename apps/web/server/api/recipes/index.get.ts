@@ -1,5 +1,5 @@
-import { prisma } from '~/server/utils/prisma'
-import type { Recipe } from '~/server/types/recipe'
+import { prisma } from '@app/database'
+import type { Recipe } from '@app/database'
 
 /**
  * @openapi

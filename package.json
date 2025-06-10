@@ -4,11 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-   
     "build": "pnpm -r build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "packages": "dotenv -- pnpm --filter",
-    "web": "pnpm packages @app/web"
+    "web": "pnpm packages @app/web",
+    "db:migrate": "pnpm  packages @app/database db:migrate",
+    "db:deploy": "pnpm packages @app/database db:deploy",
+    "db:studio": "pnpm packages @app/database db:studio",
+    "db:generate": "pnpm packages @app/database db:generate"
   },
   "keywords": [],
   "author": "",
