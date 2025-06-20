@@ -134,17 +134,24 @@ CREATE TABLE recipes (
 
 ## Authentication
 
-The API uses Bearer token authentication. Include the token in the Authorization header:
+The API uses Bearer token authentication with Auth0 JWT verification. Include the Auth0 access token in the Authorization header:
 
 ```
-Authorization: Bearer <your-token>
+Authorization: Bearer <auth0-access-token>
 ```
 
-**Note**: The current implementation includes a placeholder authentication system. For production use, integrate with your existing Auth0 setup by:
+**JWT Validation**: The server validates Auth0 JWT tokens by:
 
-1. Installing a JWT verification library (e.g., `jose`)
-2. Updating `server/utils/auth.ts` to verify Auth0 JWT tokens
-3. Extracting user information from the verified token
+1. Verifying the JWT signature using Auth0's public keys (JWKS)
+2. Validating the token's audience, issuer, and expiration
+3. Extracting user information from the verified token claims
+
+**Required Environment Variables**:
+- `NUXT_PUBLIC_AUTH_DOMAIN`: Your Auth0 domain
+- `NUXT_PUBLIC_AUTH_AUDIENCE`: Your Auth0 API audience
+- `NUXT_PUBLIC_AUTH_CLIENT_ID`: Your Auth0 client ID
+
+The authentication system validates tokens against `https://{auth0-domain}/.well-known/jwks.json` and extracts user information including `sub`, `email`, `name`, `nickname`, and `picture` from the JWT payload.
 
 ## Example Usage
 
@@ -153,11 +160,11 @@ Authorization: Bearer <your-token>
 curl -X GET http://localhost:3000/api/recipes
 ```
 
-### Create a Recipe (with authentication)
+### Create a Recipe (with Auth0 authentication)
 ```bash
 curl -X POST http://localhost:3000/api/recipes \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <your-token>" \
+  -H "Authorization: Bearer <auth0-access-token>" \
   -d '{
     "name": "Vanilla Almond Porridge",
     "summary": "Creamy porridge with vanilla and almonds",
