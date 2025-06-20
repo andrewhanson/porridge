@@ -14,11 +14,12 @@
     "@app/database": "workspace:^",
     "@app/recipes": "workspace:^",
     "@app/ui": "workspace:^",
+    "@types/pg": "^8.11.6",
+    "jose": "^6.0.11",
     "nuxt": "^3.17.5",
+    "pg": "^8.12.0",
     "vue": "^3.5.16",
     "vue-router": "^4.5.1",
-    "pg": "^8.12.0",
-    "@types/pg": "^8.11.6",
     "zod": "^3.23.8"
   },
   "devDependencies": {
